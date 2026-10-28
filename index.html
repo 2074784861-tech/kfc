@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#C8102E">
+<title>疯狂星期四 · 有个惊喜</title>
+<style>
+  :root{
+    --red:#C8102E; --red2:#8E0B20; --gold:#FFC72C; --cream:#FFF7E6;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; padding:0; min-height:100%; }
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:radial-gradient(circle at 50% 0%, #F02D45 0%, #C8102E 45%, #8E0B20 100%);
+    background-attachment:fixed;
+    color:#fff; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:26px 16px 34px; overflow-x:hidden;
+  }
+  .wrap{ width:100%; max-width:440px; text-align:center; position:relative; z-index:2; }
+  .badge{
+    display:inline-block; padding:6px 14px; border:1px solid rgba(255,255,255,.45);
+    border-radius:999px; font-size:12px; letter-spacing:1.5px; color:#FFE9B0;
+  }
+  .chicken{
+    font-size:64px; line-height:1; margin:18px 0 10px;
+    filter:drop-shadow(0 12px 20px rgba(0,0,0,.35));
+    animation:bob 2.6s ease-in-out infinite;
+  }
+  h1{ font-size:22px; line-height:1.6; margin:6px 0 10px; font-weight:700; letter-spacing:.5px; }
+  .sub{ font-size:13px; color:#FFD9DE; margin:0 0 22px; }
+  .opts{ display:flex; flex-direction:column; gap:12px; }
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; padding:16px 18px;
+    border:none; border-radius:16px; cursor:pointer; font-family:inherit;
+    background:rgba(255,255,255,.97); color:#2B2B2B; font-size:16px; font-weight:600;
+    box-shadow:0 8px 18px rgba(0,0,0,.22);
+    transition:transform .12s ease, background .2s ease, color .2s ease;
+  }
+  .opt .k{
+    display:flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:50%; flex:0 0 auto;
+    background:var(--red); color:#fff; font-size:14px;
+    transition:background .2s ease;
+  }
+  .opt:active{ transform:scale(.97); }
+  .opt.picked{ background:var(--gold); color:#4A2B00; }
+  .opt.picked .k{ background:#4A2B00; }
+  .tip{ margin-top:18px; font-size:12px; color:rgba(255,255,255,.6); }
+
+  .mask{
+    position:fixed; inset:0; z-index:9; padding:20px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.55);
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  .mask.show{ opacity:1; pointer-events:auto; }
+  .card{
+    width:100%; max-width:360px; padding:26px 22px 22px; text-align:center; color:#3A2A10;
+    background:linear-gradient(180deg,#FFFDF7,#FFEFC9); border-radius:22px;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+    transform:translateY(18px) scale(.95);
+    transition:transform .3s cubic-bezier(.2,.9,.3,1.45);
+  }
+  .mask.show .card{ transform:translateY(0) scale(1); }
+  .pop{ font-size:46px; line-height:1; }
+  .card h2{ margin:10px 0 8px; font-size:20px; color:#C8102E; }
+  .card p{ margin:0 0 18px; font-size:13.5px; line-height:1.7; color:#6B5A3C; }
+  .prize{
+    display:block; padding:16px; border-radius:14px; text-decoration:none;
+    background:linear-gradient(135deg,#E8253C,#B3122A); color:#fff;
+    font-size:17px; font-weight:700; letter-spacing:1px;
+    box-shadow:0 10px 20px rgba(200,16,46,.35);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  .hint{ margin:12px 0 0; font-size:12px; line-height:1.6; color:#9A7B45; }
+
+  @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+  @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.03); } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="badge">KFC · 疯狂星期四</div>
+    <div class="chicken">🍗</div>
+    <h1>你愿意在这疯狂星期四<br>请最爱的我吃一顿 KFC 嘛？</h1>
+    <p class="sub">选一个，然后打开惊喜 👇</p>
+
+    <div class="opts" id="opts">
+      <button class="opt" data-k="A" data-t="愿意"><span class="k">A</span>愿意</button>
+      <button class="opt" data-k="B" data-t="非常愿意"><span class="k">B</span>非常愿意</button>
+      <button class="opt" data-k="C" data-t="极其愿意"><span class="k">C</span>极其愿意</button>
+      <button class="opt" data-k="D" data-t="疯狂愿意，现在就下单"><span class="k">D</span>疯狂愿意，现在就下单</button>
+    </div>
+
+    <p class="tip">放心，四个选项都很友好 😌</p>
+  </div>
+
+  <div class="mask" id="mask">
+    <div class="card">
+      <div class="pop">🎉</div>
+      <h2 id="title">惊喜解锁！</h2>
+      <p id="desc">你已成功预订一份疯狂星期四。<br>反正 A、B、C、D，你都愿意 😏</p>
+      <a class="prize" id="prize" href="#">急着找我兑奖哦 →</a>
+      <p class="hint" id="hint">点一下，把兑奖暗号复制给我</p>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var opts = document.querySelectorAll('.opt');
+  var mask = document.getElementById('mask');
+  var prize = document.getElementById('prize');
+  var hint = document.getElementById('hint');
+  var chosen = '';
+
+  function burst(){
+    var emo = ['🍗','🎉','❤️','✨','🍟'];
+    for (var i = 0; i < 14; i++){
+      var s = document.createElement('span');
+      s.textContent = emo[i % emo.length];
+      s.style.cssText = 'position:fixed;left:' + (8 + Math.random() * 84) + 'vw;top:-40px;' +
+        'font-size:' + (16 + Math.random() * 16) + 'px;z-index:99;pointer-events:none;' +
+        'transition:transform 2.2s linear,opacity 2.2s linear;';
+      document.body.appendChild(s);
+      (function(el){
+        requestAnimationFrame(function(){
+          el.style.transform = 'translateY(' + (window.innerHeight + 90) + 'px) rotate(' + (Math.random()*360) + 'deg)';
+          el.style.opacity = '0';
+        });
+        setTimeout(function(){ el.remove(); }, 2400);
+      })(s);
+    }
+  }
+
+  opts.forEach(function(b){
+    b.addEventListener('click', function(){
+      if (mask.classList.contains('show')) return;
+      opts.forEach(function(x){ x.classList.remove('picked'); });
+      b.classList.add('picked');
+      chosen = b.dataset.k + ' · ' + b.dataset.t;
+      setTimeout(function(){ mask.classList.add('show'); burst(); }, 380);
+    });
+  });
+
+  mask.addEventListener('click', function(e){
+    if (e.target === mask) mask.classList.remove('show');
+  });
+
+  function fallbackCopy(t){
+    try{
+      var ta = document.createElement('textarea');
+      ta.value = t;
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch(e){ return false; }
+  }
+
+  prize.addEventListener('click', function(e){
+    e.preventDefault();
+    var msg = '疯狂星期四兑奖啦！我选的是「' + chosen + '」，你什么时候请我吃 KFC？';
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(msg).then(function(){
+        hint.textContent = '✅ 暗号已复制，回聊天框粘贴发给我～';
+      }).catch(function(){
+        hint.textContent = fallbackCopy(msg) ? '✅ 暗号已复制，回聊天框粘贴发给我～' : '长按这段文字复制：' + msg;
+      });
+    } else {
+      hint.textContent = fallbackCopy(msg) ? '✅ 暗号已复制，回聊天框粘贴发给我～' : '长按这段文字复制：' + msg;
+    }
+  });
+})();
+</script>
+</body>
+</html>
