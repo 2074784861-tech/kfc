@@ -101,8 +101,8 @@
   <div class="mask" id="mask">
     <div class="card">
       <div class="pop">🎉</div>
-      <h2 id="title">惊喜解锁！</h2>
-      <p id="desc">你已成功预订一份疯狂星期四。<br>反正 A、B、C、D，你都愿意 😏</p>
+      <h2 id="title">恭喜，你欠我一顿 KFC 了 🎉</h2>
+      <p id="desc">四个选项，反正都是「愿意」。<br>所以这顿疯狂星期四——你请我。</p>
       <a class="prize" id="prize" href="#">急着找我兑奖哦 →</a>
       <p class="hint" id="hint">点一下，把兑奖暗号复制给我</p>
     </div>
@@ -166,7 +166,7 @@
 
   prize.addEventListener('click', function(e){
     e.preventDefault();
-    var msg = '疯狂星期四兑奖啦！我选的是「' + chosen + '」，你什么时候请我吃 KFC？';
+    var msg = '说好了！我选的是「' + chosen + '」，这顿疯狂星期四 KFC 我请你，快来找我兑奖～';
     if (navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(msg).then(function(){
         hint.textContent = '✅ 暗号已复制，回聊天框粘贴发给我～';
