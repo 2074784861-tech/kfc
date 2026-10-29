@@ -166,7 +166,7 @@
 
   prize.addEventListener('click', function(e){
     e.preventDefault();
-    var msg = '说好了！我选的是「' + chosen + '」，这顿疯狂星期四 KFC 我请你，快来找我兑奖～';
+    var msg = '我选的是「' + chosen + '」，宝宝都请我吃疯狂星期四了，快来找我要盲盒吧！';
     if (navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(msg).then(function(){
         hint.textContent = '✅ 暗号已复制，回聊天框粘贴发给我～';
